@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Biodata</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #74ebd5, #9face6);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  background: white;
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.file-info {
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.hasil {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f3f3f3;
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Form Biodata</h1>
+
+<form id="biodataForm">
+
+<div class="form-group">
+<label>Nama</label>
+<input type="text" id="nama" required>
+</div>
+
+<div class="form-group">
+<label>Umur</label>
+<input type="number" id="umur" required>
+</div>
+
+<!-- SOAL 1 -->
+<div class="form-group">
+<label>Soal 1 (Upload max 5 foto)</label>
+<input type="file" id="soal1" multiple accept="image/*">
+<div class="file-info" id="info1"></div>
+</div>
+
+<!-- SOAL 2 -->
+<div class="form-group">
+<label>Soal 2 (Upload max 5 foto)</label>
+<input type="file" id="soal2" multiple accept="image/*">
+<div class="file-info" id="info2"></div>
+</div>
+
+<!-- SOAL 3 -->
+<div class="form-group">
+<label>Soal 3 (Upload max 3 foto)</label>
+<input type="file" id="soal3" multiple accept="image/*">
+<div class="file-info" id="info3"></div>
+</div>
+
+<button type="submit">Kirim</button>
+</form>
+
+<div class="hasil" id="hasil">
+<h2>Data Terkirim</h2>
+<p id="output"></p>
+</div>
+
+</div>
+
+<script>
+function handleFiles(input, max, infoId) {
+  const info = document.getElementById(infoId);
+
+  input.addEventListener('change', () => {
+    if (input.files.length > max) {
+      alert('Maksimal ' + max + ' file!');
+      input.value = '';
+      info.textContent = '';
+      return;
+    }
+
+    let names = [];
+    for (let i = 0; i < input.files.length; i++) {
+      names.push(input.files[i].name);
+    }
+
+    info.textContent = "File: " + names.join(', ');
+  });
+}
+
+// validasi masing-masing
+handleFiles(document.getElementById('soal1'), 5, 'info1');
+handleFiles(document.getElementById('soal2'), 5, 'info2');
+handleFiles(document.getElementById('soal3'), 3, 'info3');
+
+// submit
+document.getElementById('biodataForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const nama = document.getElementById('nama').value;
+  const umur = document.getElementById('umur').value;
+
+  document.getElementById('output').textContent =
+    `Nama: ${nama}, Umur: ${umur}`;
+
+  document.getElementById('hasil').style.display = 'block';
+});
+</script>
+
+</body>
+</html>
